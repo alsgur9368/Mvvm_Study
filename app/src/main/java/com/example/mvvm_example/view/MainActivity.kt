@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
+//1111111111111111
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         mBinding.lifecycleOwner = this
