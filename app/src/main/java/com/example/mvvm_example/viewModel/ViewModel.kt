@@ -1,18 +1,24 @@
 package com.example.mvvm_example.viewModel
 
 import android.app.Application
-import android.widget.Toast
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
+import com.example.mvvm_example.AppDatabase
+import com.example.mvvm_example.model.Repository
+import com.example.mvvm_example.model.UserEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ViewModel( application: Application) : AndroidViewModel(application){
     var main_text: ObservableField<String> = ObservableField("Main")
-    val mApplication = application
+    val repository: Repository =  Repository(AppDatabase.getDatabase(application,viewModelScope))
+    var allUsers: LiveData<List<UserEntity>> = repository.allUsers
 
-    fun onClickButton(){
-        // TODO: Click 시 Room에 데이터를 추가해야 함.
-        Toast.makeText(mApplication,"Click!",Toast.LENGTH_SHORT).show()
+
+    fun insert(userEntity: UserEntity) = viewModelScope.launch(Dispatchers.IO) {
+        repository.insert(userEntity)
     }
 
 }
